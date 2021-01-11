@@ -10,11 +10,9 @@
     "module": "es2015",
     "removeComments": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
     "noEmitHelpers": false,
     "importHelpers": false,
     "baseUrl": "./",
-
   },
   "include": [
     "./test/*",

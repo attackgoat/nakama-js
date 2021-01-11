@@ -144,7 +144,7 @@ The development roadmap is managed as GitHub issues and pull requests are welcom
 
 ### Source Builds
 
-Ensure you are using Node v12.18.1.
+Ensure you are using Node v15.5.1.
 
 The codebase is multi-package monorepo written in TypeScript and can be built with [esbuild](https://github.com/evanw/esbuild). All dependencies are managed with Yarn.
 

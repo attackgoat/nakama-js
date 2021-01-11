@@ -16,19 +16,19 @@
 
 
 import {Page} from "puppeteer"
-import * as nakamajs from "../packages/nakama-js";
+import {Client} from "../packages/nakama-js/index";
 import {createPage, generateid} from "./utils"
 
 describe('RPC Tests', () => {
 
   it('should send rpc', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
     const rpcid = "clientrpc.rpc_get";
 
     const rpcResult = await page.evaluate(async (customid, rpcid) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid)
       return await client.rpcGet(rpcid, session);
     }, customid, rpcid);
@@ -37,7 +37,7 @@ describe('RPC Tests', () => {
   });
 
   it('should send rpc with payload', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
     const rpcid = "clientrpc.rpc";
@@ -46,7 +46,7 @@ describe('RPC Tests', () => {
     };
 
     const rpcResult = await page.evaluate(async (customid, rpcid, request) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid)
       return await client.rpc(session, rpcid, request);
     }, customid, rpcid, request);
@@ -57,13 +57,13 @@ describe('RPC Tests', () => {
   });
 
   it('should send rpc with httpKey', async() => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const rpcid = "clientrpc.rpc_get";
     const HTTP_KEY = "defaulthttpkey";
 
     const rpcResult = await page.evaluate(async (rpcid, HTTP_KEY) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       return await client.rpcGet(rpcid, null!, HTTP_KEY);
     }, rpcid, HTTP_KEY);
 

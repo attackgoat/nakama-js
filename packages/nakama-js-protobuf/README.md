@@ -21,7 +21,7 @@ Nakama JavaScript Protobuf adapter
     // <script src="path/to/nakama-js-protobuf.iife.js"></script>
 
     var useSSL = false; // Enable if server is run with an SSL certificate.
-    var client = new nakamajs.Client("defaultkey", "127.0.0.1", 7350, useSSL, new nakamajsprotobuf.WebSocketAdapterPb());
+    var client = new Client("defaultkey", "127.0.0.1", 7350, useSSL, new WebSocketAdapterPb());
     ```
 
 3. Create and use the WebSocket:

@@ -442,7 +442,7 @@ __metadata:
     chalk: ^2.4.2
     esbuild: ^0.6.5
     jest: 26.0.0
-    jest-puppeteer: ^4.3.0
+    jest-puppeteer: ^4.4.0
     jsdom: 16.3.0
     merge: ^1.2.1
     mkdirp: ^0.5.1
@@ -4100,7 +4100,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"jest-puppeteer@npm:^4.3.0":
+"jest-puppeteer@npm:^4.4.0":
   version: 4.4.0
   resolution: "jest-puppeteer@npm:4.4.0"
   dependencies:

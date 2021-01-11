@@ -16,18 +16,18 @@
 
 
 import {Page} from "puppeteer";
-import * as nakamajs from "../packages/nakama-js";
+import {Client} from "../packages/nakama-js/index";
 import {createPage, generateid} from "./utils";
 
 describe('Notification Tests', () => {
 
   it('should rpc and list notifications', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
 
     const notifications = await page.evaluate(async (customid) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid);
       await client.rpc(session, "clientrpc.send_notification", {"user_id": session.user_id});
       await client.rpc(session, "clientrpc.send_notification", {"user_id": session.user_id});
@@ -45,12 +45,12 @@ describe('Notification Tests', () => {
   });
 
   it('should rpc and delete notification', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
 
     const response = await page.evaluate(async (customid) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid);
       const rpcSuccess = await client.rpc(session, "clientrpc.send_notification", {"user_id": session.user_id});
       const notificationsList = await client.listNotifications(session, 100, "");

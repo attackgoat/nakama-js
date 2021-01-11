@@ -15,19 +15,19 @@
  */
 
 import {Page} from "puppeteer";
-import * as nakamajs from "../packages/nakama-js/index";
+import {Client} from "../packages/nakama-js/index";
 import {createPage, createFacebookInstantGameAuthToken, generateid} from "./utils";
 
 describe('Authenticate Tests', () => {
 
   it('should authenticate with email', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const email = generateid() + "@example.com";
     const password = generateid();
 
     const session = await page.evaluate(async (email, password) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const promise = client.authenticateEmail(email, password);
       return promise;
     }, email, password);
@@ -37,12 +37,12 @@ describe('Authenticate Tests', () => {
   });
 
   it('should authenticate with device id', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const deviceid = generateid();
 
     const session = await page.evaluate((deviceid) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       return client.authenticateDevice(deviceid);
     }, deviceid);
 
@@ -51,12 +51,12 @@ describe('Authenticate Tests', () => {
   });
 
   it('should authenticate with custom id', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
 
     const session = await page.evaluate((customid) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       return client.authenticateCustom(customid);
     }, customid);
 
@@ -65,11 +65,11 @@ describe('Authenticate Tests', () => {
   });
 
   it('should fail to authenticate with new custom id', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
     const result = await page.evaluate(async (customid) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       try {
         // Expects exception.
         return await client.authenticateCustom(customid, false);
@@ -82,12 +82,12 @@ describe('Authenticate Tests', () => {
   });
 
   it('should authenticate with custom id twice', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = "someuniquecustomid";
 
     const session = await page.evaluate(async (customid) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       await client.authenticateCustom(customid);
       return await client.authenticateCustom(customid);
     }, customid);
@@ -97,10 +97,10 @@ describe('Authenticate Tests', () => {
   });
 
   it('should fail authenticate with custom id', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const result = await page.evaluate(async () => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       try {
         // Expects exception.
         return await client.authenticateCustom("");
@@ -114,10 +114,10 @@ describe('Authenticate Tests', () => {
 
   it('should authenticate with facebook instant games', async () => {
     let token : string = createFacebookInstantGameAuthToken("a_player_id");
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const session = await page.evaluate((token) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       return client.authenticateFacebookInstantGame(token);
     }, token);
 

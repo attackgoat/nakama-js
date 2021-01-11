@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import * as nakamajs from "../packages/nakama-js";
+import {Client} from "../packages/nakama-js/index";
 import {StatusPresenceEvent} from "../packages/nakama-js/socket";
-import * as nakamajsprotobuf from "../packages/nakama-js-protobuf";
 import {generateid, createPage, adapters, AdapterType} from "./utils";
 
 describe('Status Tests', () => {
@@ -28,9 +27,9 @@ describe('Status Tests', () => {
 
     const response = await page.evaluate(async (customid, adapter) => {
 
-      const client = new nakamajs.Client();
+      const client = new Client();
       const socket = client.createSocket(false, false,
-        adapter == AdapterType.Protobuf ? new nakamajsprotobuf.WebSocketAdapterPb() : new nakamajs.WebSocketAdapterText());
+        adapter == AdapterType.Protobuf ? new WebSocketAdapterPb() : new WebSocketAdapterText());
 
       const session = await client.authenticateCustom(customid);
       await socket.connect(session, true);
@@ -48,13 +47,13 @@ describe('Status Tests', () => {
     const customid2 = generateid();
 
     const response = await page.evaluate(async (customid1, customid2, adapter) => {
-      const client1 = new nakamajs.Client();
-      const client2 = new nakamajs.Client();
+      const client1 = new Client();
+      const client2 = new Client();
       const socket2 = client2.createSocket(false, false,
-        adapter == AdapterType.Protobuf ? new nakamajsprotobuf.WebSocketAdapterPb() : new nakamajs.WebSocketAdapterText());
+        adapter == AdapterType.Protobuf ? new WebSocketAdapterPb() : new WebSocketAdapterText());
 
       const socket1 = client1.createSocket(false, false,
-        adapter == AdapterType.Protobuf ? new nakamajsprotobuf.WebSocketAdapterPb() : new nakamajs.WebSocketAdapterText());
+        adapter == AdapterType.Protobuf ? new WebSocketAdapterPb() : new WebSocketAdapterText());
 
       const session1 = await client1.authenticateCustom(customid1);
       const session2 = await client2.authenticateCustom(customid2);
@@ -87,10 +86,10 @@ describe('Status Tests', () => {
     const customid2 = generateid();
 
     const response = await page.evaluate(async (customid1, customid2, adapter) => {
-      const client1 = new nakamajs.Client();
-      const client2 = new nakamajs.Client();
+      const client1 = new Client();
+      const client2 = new Client();
       const socket1 = client1.createSocket(false, false,
-        adapter == AdapterType.Protobuf ? new nakamajsprotobuf.WebSocketAdapterPb() : new nakamajs.WebSocketAdapterText());
+        adapter == AdapterType.Protobuf ? new WebSocketAdapterPb() : new WebSocketAdapterText());
 
       const session1 = await client1.authenticateCustom(customid1);
       const session2 = await client2.authenticateCustom(customid2);

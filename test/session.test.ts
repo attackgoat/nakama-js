@@ -15,14 +15,14 @@
  */
 
 
-import * as nakamajs from "../packages/nakama-js";
+import {Client} from "../packages/nakama-js/index";
 import {createPage} from "./utils";
 import {Page} from "puppeteer";
 
 describe('Session Tests', () => {
 
   it('should be expired', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const expired = await page.evaluate(() => {
       const nowUnixEpoch = Math.floor(Date.now() / 1000);
@@ -35,7 +35,7 @@ describe('Session Tests', () => {
   });
 
   it('should have username and userId', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const session = await page.evaluate(() => {
       const expiredJwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTY5MTA5NzMsInVpZCI6ImY0MTU4ZjJiLTgwZjMtNDkyNi05NDZiLWE4Y2NmYzE2NTQ5MCIsInVzbiI6InZUR2RHSHl4dmwifQ.gzLaMQPaj5wEKoskOSALIeJLOYXEVFoPx3KY0Jm1EVU";

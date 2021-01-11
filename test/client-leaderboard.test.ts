@@ -15,13 +15,13 @@
  */
 
 import {Page} from "puppeteer"
-import * as nakamajs from "../packages/nakama-js";
+import {Client} from "../packages/nakama-js/index";
 import {createPage, generateid} from "./utils"
 
 describe('Leaderboard Tests', () => {
 
   it('should create leaderboard with Set operator and write record', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
     const rpcid = "clientrpc.create_leaderboard"
@@ -33,7 +33,7 @@ describe('Leaderboard Tests', () => {
     };
 
     const result = await page.evaluate(async (customid, rpcid, operator, score) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid)
       const result = await client.rpc(session, rpcid, {"operator": operator});
       const leaderboardId =(<any>result.payload).leaderboard_id;
@@ -48,7 +48,7 @@ describe('Leaderboard Tests', () => {
   });
 
   it('should create leaderboard with Best operator and write record', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
     const rpcid = "clientrpc.create_leaderboard"
@@ -60,7 +60,7 @@ describe('Leaderboard Tests', () => {
     };
 
     const result = await page.evaluate(async (customid, rpcid, operator, score) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid)
       const result = await client.rpc(session, rpcid, {"operator": operator});
       const leaderboardId = (<any>result.payload).leaderboard_id;
@@ -79,7 +79,7 @@ describe('Leaderboard Tests', () => {
   });
 
   it('should create leaderboard with Incr operator and write record', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
     const rpcid = "clientrpc.create_leaderboard"
@@ -91,7 +91,7 @@ describe('Leaderboard Tests', () => {
     };
 
     const result = await page.evaluate(async (customid, rpcid, operator, score) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid);
       const result = await client.rpc(session, rpcid, {"operator": operator});
       const leaderboardId = (<any>result.payload).leaderboard_id;
@@ -110,7 +110,7 @@ describe('Leaderboard Tests', () => {
   });
 
   it('should create leaderboard with Set operator and then list leaderboard records', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
     const rpcid = "clientrpc.create_leaderboard"
@@ -122,7 +122,7 @@ describe('Leaderboard Tests', () => {
     };
 
     const result = await page.evaluate(async (customid, rpcid, operator, score) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid);
 
       const result = await client.rpc(session, rpcid, {"operator": operator});

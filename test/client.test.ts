@@ -15,16 +15,16 @@
  */
 
 import {Page} from "puppeteer"
-import * as nakamajs from "../packages/nakama-js";
+import {Client} from "../packages/nakama-js/index";
 import {createPage} from "./utils"
 
 describe('Client Tests', () => {
 
   it('should create object with defaults', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const client = await page.evaluate(() => {
-      return new nakamajs.Client();
+      return new Client();
     });
 
     expect(client).not.toBeNull();
@@ -36,7 +36,7 @@ describe('Client Tests', () => {
   });
 
   it('should create object with configuration', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const SERVER_KEY = "somesecret!";
     const HOST = "127.0.0.2";
@@ -45,7 +45,7 @@ describe('Client Tests', () => {
     const TIMEOUT = 8000;
 
     const client = await page.evaluate((SERVER_KEY, HOST, PORT, SSL, TIMEOUT) => {
-      return new nakamajs.Client(SERVER_KEY, HOST, PORT, SSL, TIMEOUT);
+      return new Client(SERVER_KEY, HOST, PORT, SSL, TIMEOUT);
     }, SERVER_KEY, HOST, PORT, SSL, TIMEOUT);
 
     expect(client).not.toBeNull();
@@ -57,10 +57,10 @@ describe('Client Tests', () => {
   });
 
   it('should obey timeout configuration option', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const err = await page.evaluate(() => {
-      const client = new nakamajs.Client("defaultkey", "127.0.0.1", "7350", false, 0);
+      const client = new Client("defaultkey", "127.0.0.1", "7350", false, 0);
       return client.authenticateCustom("timeoutuseridentifier")
       .catch(err => err);
     });

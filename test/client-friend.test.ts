@@ -15,21 +15,21 @@
  */
 
 import {Page} from "puppeteer"
-import * as nakamajs from "../packages/nakama-js/client";
+import {Client} from "../packages/nakama-js/index";
 import {createFacebookInstantGameAuthToken, createPage, generateid} from "./utils";
 
 describe('Friend Tests', () => {
 
   it('should add friend, then list', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid1 = generateid();
     const customid2 = generateid();
 
     const result = await page.evaluate(async (customid1, customid2) => {
-      const client1 = new nakamajs.Client();
+      const client1 = new Client();
       const session1 = await client1.authenticateCustom(customid1);
-      const client2 = new nakamajs.Client();
+      const client2 = new Client();
       const session2 = await client2.authenticateCustom(customid2);
 
       await client1.addFriends(session1, [session2.user_id]);
@@ -42,15 +42,15 @@ describe('Friend Tests', () => {
   });
 
   it('should receive friend invite, then list', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid1 = generateid();
     const customid2 = generateid();
 
     const result = await page.evaluate(async (customid1, customid2) => {
-      const client1 = new nakamajs.Client();
+      const client1 = new Client();
       const session1 = await client1.authenticateCustom(customid1);
-      const client2 = new nakamajs.Client();
+      const client2 = new Client();
       const session2 = await client2.authenticateCustom(customid2);
 
       await client1.addFriends(session1, [session2.user_id]);
@@ -63,15 +63,15 @@ describe('Friend Tests', () => {
   });
 
   it('should block friend, then list', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid1 = generateid();
     const customid2 = generateid();
 
     const result = await page.evaluate(async (customid1, customid2) => {
-      const client1 = new nakamajs.Client();
+      const client1 = new Client();
       const session1 = await client1.authenticateCustom(customid1);
-      const client2 = new nakamajs.Client();
+      const client2 = new Client();
       const session2 = await client2.authenticateCustom(customid2);
 
       await client1.blockFriends(session1, [session2.user_id]);
@@ -84,15 +84,15 @@ describe('Friend Tests', () => {
   });
 
   it('should add friend, accept, then list', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid1 = generateid();
     const customid2 = generateid();
 
     const result = await page.evaluate(async (customid1, customid2) => {
-      const client1 = new nakamajs.Client();
+      const client1 = new Client();
       const session1 = await client1.authenticateCustom(customid1);
-      const client2 = new nakamajs.Client();
+      const client2 = new Client();
       const session2 = await client2.authenticateCustom(customid2);
 
       await client1.addFriends(session1, [session2.user_id]);
@@ -106,15 +106,15 @@ describe('Friend Tests', () => {
   });
 
   it('should add friend, reject, then list', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid1 = generateid();
     const customid2 = generateid();
 
     const result = await page.evaluate(async (customid1, customid2) => {
-      const client1 = new nakamajs.Client();
+      const client1 = new Client();
       const session1 = await client1.authenticateCustom(customid1);
-      const client2 = new nakamajs.Client();
+      const client2 = new Client();
       const session2 = await client2.authenticateCustom(customid2);
 
       await client1.addFriends(session1, [session2.user_id]);
@@ -127,15 +127,15 @@ describe('Friend Tests', () => {
   });
 
   it('should add friend authenticated via facebook instant, then list', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid1 = generateid();
     const customid2 = generateid();
 
     const result = await page.evaluate(async (customid1, token2) => {
-      const client1 = new nakamajs.Client();
+      const client1 = new Client();
       const session1 = await client1.authenticateCustom(customid1);
-      const client2 = new nakamajs.Client();
+      const client2 = new Client();
       const session2 = await client2.authenticateFacebookInstantGame(token2, true);
       await client1.addFriends(session1, [session2.user_id]);
       return await client1.listFriends(session1);

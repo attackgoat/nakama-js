@@ -17,19 +17,19 @@
 const base64url = require("base64url");
 const crypto = require("crypto");
 import {Page} from "puppeteer"
-import * as nakamajs from "../packages/nakama-js";
+import {Client} from "../packages/nakama-js/index";
 import {createPage, generateid} from "./utils";
 
 describe('Link / Unlink Tests', () => {
 
   it('should link device ID', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
     const deviceid = generateid();
 
     const account = await page.evaluate(async (customid, deviceid) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid)
       await client.linkDevice(session, { id: deviceid });
       return await client.getAccount(session);
@@ -41,13 +41,13 @@ describe('Link / Unlink Tests', () => {
   });
 
   it('should unlink device ID', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
     const deviceid = generateid();
 
     const account = await page.evaluate(async (customid, deviceid) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid);
       await client.linkDevice(session, { id: deviceid });
       await client.unlinkDevice(session, {id: deviceid });
@@ -83,7 +83,7 @@ describe('Link / Unlink Tests', () => {
     const customid = generateid();
 
     const account = await page.evaluate(async (customid, token) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid);
       await client.linkFacebookInstantGame(session, { signed_player_info: token });
       return await client.getAccount(session);
@@ -120,7 +120,7 @@ describe('Link / Unlink Tests', () => {
     const customid = generateid();
 
     const account = await page.evaluate(async (customid, token) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid);
       await client.linkFacebookInstantGame(session, { signed_player_info: token });
       await client.unlinkFacebookInstantGame(session, { signed_player_info: token });

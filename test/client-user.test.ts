@@ -16,18 +16,18 @@
 
 
 import {Page} from "puppeteer"
-import * as nakamajs from "../packages/nakama-js";
+import {Client} from "../packages/nakama-js/index";
 import {createPage, generateid} from "./utils";
 
 describe('User Tests', () => {
 
   it('should return current user account', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
 
     const account = await page.evaluate(async (customid) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       return client.authenticateCustom(customid)
         .then(session => {
           return client.getAccount(session);
@@ -49,7 +49,7 @@ describe('User Tests', () => {
 
   it('should update current user account', async () => {
 
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
     const displayName = "display";
@@ -58,7 +58,7 @@ describe('User Tests', () => {
     const loc = "california";
 
     const account = await page.evaluate(async (customid, displayName, avatar, lang, loc) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid);
 
       await client.updateAccount(session, {
@@ -83,12 +83,12 @@ describe('User Tests', () => {
   });
 
   it('should update current user with same username', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
 
     const account = await page.evaluate(async (customid) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid);
       const success = await client.updateAccount(session, {
         username: session.username
@@ -101,13 +101,13 @@ describe('User Tests', () => {
   });
 
   it('should return two users', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
     const customid2 = generateid();
 
     const users = await page.evaluate(async (customid, customid2) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session1 = await client.authenticateCustom(customid);
       const session2 = await client.authenticateCustom(customid2)
       return await client.getUsers(session2, [session1.user_id], [session2.username], []);
@@ -119,12 +119,12 @@ describe('User Tests', () => {
   });
 
   it('should return no users', async () => {
-    const page : Page = await createPage();
+    let page : Page = await createPage();
 
     const customid = generateid();
 
     const response = await page.evaluate(async (customid) => {
-      const client = new nakamajs.Client();
+      const client = new Client();
       const session = await client.authenticateCustom(customid);
       return await client.getUsers(session, [], [], []);
     }, customid);
